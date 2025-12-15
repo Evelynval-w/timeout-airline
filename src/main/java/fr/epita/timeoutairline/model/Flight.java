@@ -3,19 +3,18 @@ package fr.epita.timeoutairline.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "flights")
 public class Flight {
 
     @Id
-    private String flightNumber;  // Not auto-generated, e.g., "TA101"
+    private String flightNumber;
 
     private String departureCity;
     private String arrivalCity;
-    private LocalTime departureHour;
-    private LocalTime arrivalHour;
+    private String departureHour;
+    private String arrivalHour;
     private LocalDate departureDate;
     private int numberOfSeat;
     private BigDecimal firstClassSeatPrice;
@@ -23,28 +22,25 @@ public class Flight {
     private BigDecimal businessClassPrice;
     private BigDecimal economicsClassPrice;
 
-    // Relationship: Many flights can use one plane
     @ManyToOne
     @JoinColumn(name = "id_plane")
     private Plane plane;
 
-    // Relationship: Many flights can depart from one airport
     @ManyToOne
     @JoinColumn(name = "departure_airport_id")
     private Airport departureAirport;
 
-    // Relationship: Many flights can arrive at one airport
     @ManyToOne
     @JoinColumn(name = "arrival_airport_id")
     private Airport arrivalAirport;
 
-    // Default constructor (required by JPA)
+    // Default constructor
     public Flight() {
     }
 
     // Constructor with fields
-    public Flight(String flightNumber, String departureCity, String arrivalCity, 
-                  LocalTime departureHour, LocalTime arrivalHour, LocalDate departureDate,
+    public Flight(String flightNumber, String departureCity, String arrivalCity,
+                  String departureHour, String arrivalHour, LocalDate departureDate,
                   int numberOfSeat, BigDecimal firstClassSeatPrice, BigDecimal premiumSeatPrice,
                   BigDecimal businessClassPrice, BigDecimal economicsClassPrice,
                   Plane plane, Airport departureAirport, Airport arrivalAirport) {
@@ -89,19 +85,19 @@ public class Flight {
         this.arrivalCity = arrivalCity;
     }
 
-    public LocalTime getDepartureHour() {
+    public String getDepartureHour() {
         return departureHour;
     }
 
-    public void setDepartureHour(LocalTime departureHour) {
+    public void setDepartureHour(String departureHour) {
         this.departureHour = departureHour;
     }
 
-    public LocalTime getArrivalHour() {
+    public String getArrivalHour() {
         return arrivalHour;
     }
 
-    public void setArrivalHour(LocalTime arrivalHour) {
+    public void setArrivalHour(String arrivalHour) {
         this.arrivalHour = arrivalHour;
     }
 

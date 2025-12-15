@@ -12,20 +12,17 @@ public class Plane {
 
     private String brand;
     private String model;
-    private int manufacturingYear;
+    private Integer manufacturingYear;
 
-    // Default constructor (required by JPA)
     public Plane() {
     }
 
-    // Constructor with fields
-    public Plane(String brand, String model, int manufacturingYear) {
+    public Plane(String brand, String model, Integer manufacturingYear) {
         this.brand = brand;
         this.model = model;
         this.manufacturingYear = manufacturingYear;
     }
 
-    // Getters and Setters
     public Long getIdPlane() {
         return idPlane;
     }
@@ -50,10 +47,11 @@ public class Plane {
         this.model = model;
     }
 
-    public int getManufacturingYear() {
+    public Integer getManufacturingYear() {
         return manufacturingYear;
     }
 
-    public void setManufacturingYear(int manufacturingYear) {
+    public void setManufacturingYear(Integer manufacturingYear) {
         this.manufacturingYear = manufacturingYear;
-    } }
+    }
+}
