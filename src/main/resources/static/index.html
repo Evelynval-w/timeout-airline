@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeout Airline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1e3c72;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #1e3c72;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #2a5298;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        #results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #1e3c72;
+            color: white;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .tab.active {
+            background: white;
+            color: #1e3c72;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✈️ Timeout Airline</h1>
+            <p>Flight Booking Management System</p>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('flights')">Flights</div>
+            <div class="tab" onclick="showTab('search')">Search Flights</div>
+            <div class="tab" onclick="showTab('booking')">Book Flight</div>
+            <div class="tab" onclick="showTab('clients')">Clients</div>
+            <div class="tab" onclick="showTab('planes')">Planes</div>
+            <div class="tab" onclick="showTab('airports')">Airports</div>
+            <div class="tab" onclick="showTab('rewards')">Miles Rewards</div>
+        </div>
+
+        <!-- FLIGHTS TAB -->
+        <div id="flights" class="tab-content active">
+            <div class="card">
+                <h2>All Flights</h2>
+                <button onclick="loadFlights()">Load Flights</button>
+                <div id="flightsTable"></div>
+            </div>
+        </div>
+
+        <!-- SEARCH TAB -->
+        <div id="search" class="tab-content">
+            <div class="card">
+                <h2>Search Flights</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>From (Departure City)</label>
+                        <input type="text" id="searchFrom" placeholder="e.g., Paris">
+                    </div>
+                    <div class="form-group">
+                        <label>To (Arrival City)</label>
+                        <input type="text" id="searchTo" placeholder="e.g., London">
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="searchDate">
+                    </div>
+                </div>
+                <button onclick="searchFlights()">🔍 Search</button>
+                <div id="searchResults"></div>
+            </div>
+        </div>
+
+        <!-- BOOKING TAB -->
+        <div id="booking" class="tab-content">
+            <div class="card">
+                <h2>Book a Flight</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" id="bookFirstname" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="bookLastname" placeholder="Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Passport Number</label>
+                        <input type="text" id="bookPassport" placeholder="AB123456">
+                    </div>
+                    <div class="form-group">
+                        <label>Birthdate</label>
+                        <input type="date" id="bookBirthdate">
+                    </div>
+                    <div class="form-group">
+                        <label>Flight Number</label>
+                        <input type="text" id="bookFlightNumber" placeholder="TA101">
+                    </div>
+                    <div class="form-group">
+                        <label>Seat Type</label>
+                        <select id="bookSeatType">
+                            <option value="ECONOMICS">Economics</option>
+                            <option value="BUSINESS">Business</option>
+                            <option value="PREMIUM">Premium</option>
+                            <option value="FIRST_CLASS">First Class</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-success" onclick="bookFlight()">✈️ Book Flight</button>
+                <div id="bookingResult"></div>
+            </div>
+        </div>
+
+        <!-- CLIENTS TAB -->
+        <div id="clients" class="tab-content">
+            <div class="card">
+                <h2>All Clients</h2>
+                <button onclick="loadClients()">Load Clients</button>
+                <div id="clientsTable"></div>
+            </div>
+        </div>
+
+        <!-- PLANES TAB -->
+        <div id="planes" class="tab-content">
+            <div class="card">
+                <h2>All Planes</h2>
+                <button onclick="loadPlanes()">Load Planes</button>
+                <div id="planesTable"></div>
+            </div>
+            <div class="card">
+                <h2>Add New Plane</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" id="planeBrand" placeholder="Boeing">
+                    </div>
+                    <div class="form-group">
+                        <label>Model</label>
+                        <input type="text" id="planeModel" placeholder="737">
+                    </div>
+                    <div class="form-group">
+                        <label>Manufacturing Year</label>
+                        <input type="number" id="planeYear" placeholder="2020">
+                    </div>
+                </div>
+                <button class="btn-success" onclick="addPlane()">+ Add Plane</button>
+            </div>
+        </div>
+
+        <!-- AIRPORTS TAB -->
+        <div id="airports" class="tab-content">
+            <div class="card">
+                <h2>All Airports</h2>
+                <button onclick="loadAirports()">Load Airports</button>
+                <div id="airportsTable"></div>
+            </div>
+            <div class="card">
+                <h2>Add New Airport</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Airport Name</label>
+                        <input type="text" id="airportName" placeholder="Charles de Gaulle">
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input type="text" id="airportCountry" placeholder="France">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="airportCity" placeholder="Paris">
+                    </div>
+                </div>
+                <button class="btn-success" onclick="addAirport()">+ Add Airport</button>
+            </div>
+        </div>
+
+        <!-- REWARDS TAB -->
+        <div id="rewards" class="tab-content">
+            <div class="card">
+                <h2>Miles Rewards</h2>
+                <button onclick="loadRewards()">Load Rewards</button>
+                <p style="margin-top:10px; color:#666;">Clients get a discount code after every 3 flights in the same year!</p>
+                <div id="rewardsTable"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8084/api/v1';
+
+        // Tab switching
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Load Flights
+        async function loadFlights() {
+            try {
+                const response = await fetch(`${API_BASE}/flights`);
+                const flights = await response.json();
+                let html = '<table><tr><th>Flight #</th><th>From</th><th>To</th><th>Date</th><th>Seats</th><th>Economy Price</th></tr>';
+                flights.forEach(f => {
+                    html += `<tr>
+                        <td>${f.flightNumber}</td>
+                        <td>${f.departureCity}</td>
+                        <td>${f.arrivalCity}</td>
+                        <td>${f.departureDate}</td>
+                        <td>${f.numberOfSeat}</td>
+                        <td>€${f.economicsClassPrice}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('flightsTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('flightsTable').innerHTML = '<p style="color:red;">Error loading flights. Is the server running?</p>';
+            }
+        }
+
+        // Search Flights
+        async function searchFlights() {
+            const from = document.getElementById('searchFrom').value;
+            const to = document.getElementById('searchTo').value;
+            const date = document.getElementById('searchDate').value;
+            try {
+                const response = await fetch(`${API_BASE}/flights/search?from=${from}&to=${to}&date=${date}`);
+                const flights = await response.json();
+                if (flights.length === 0) {
+                    document.getElementById('searchResults').innerHTML = '<p>No flights found.</p>';
+                    return;
+                }
+                let html = '<table><tr><th>Flight #</th><th>From</th><th>To</th><th>Departure</th><th>Arrival</th><th>Economy</th></tr>';
+                flights.forEach(f => {
+                    html += `<tr>
+                        <td>${f.flightNumber}</td>
+                        <td>${f.departureCity}</td>
+                        <td>${f.arrivalCity}</td>
+                        <td>${f.departureHour}</td>
+                        <td>${f.arrivalHour}</td>
+                        <td>€${f.economicsClassPrice}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('searchResults').innerHTML = html;
+            } catch (e) {
+                document.getElementById('searchResults').innerHTML = '<p style="color:red;">Error searching flights.</p>';
+            }
+        }
+
+        // Book Flight
+        async function bookFlight() {
+            const booking = {
+                firstname: document.getElementById('bookFirstname').value,
+                lastname: document.getElementById('bookLastname').value,
+                passportNumber: document.getElementById('bookPassport').value,
+                birthdate: document.getElementById('bookBirthdate').value,
+                flightNumber: document.getElementById('bookFlightNumber').value,
+                typeOfSeat: document.getElementById('bookSeatType').value
+            };
+            try {
+                const response = await fetch(`${API_BASE}/bookings/book`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(booking)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById('bookingResult').innerHTML = `<p style="color:green;">✅ Booking successful! Reservation ID: ${result.idReservation}</p>`;
+                } else {
+                    document.getElementById('bookingResult').innerHTML = `<p style="color:red;">❌ ${result.message || result}</p>`;
+                }
+            } catch (e) {
+                document.getElementById('bookingResult').innerHTML = '<p style="color:red;">Error booking flight.</p>';
+            }
+        }
+
+        // Load Clients
+        async function loadClients() {
+            try {
+                const response = await fetch(`${API_BASE}/clients`);
+                const clients = await response.json();
+                let html = '<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Passport</th></tr>';
+                clients.forEach(c => {
+                    html += `<tr>
+                        <td>${c.idUser}</td>
+                        <td>${c.firstname} ${c.lastname}</td>
+                        <td>${c.email || '-'}</td>
+                        <td>${c.numPassport}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('clientsTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('clientsTable').innerHTML = '<p style="color:red;">Error loading clients.</p>';
+            }
+        }
+
+        // Load Planes
+        async function loadPlanes() {
+            try {
+                const response = await fetch(`${API_BASE}/planes`);
+                const planes = await response.json();
+                let html = '<table><tr><th>ID</th><th>Brand</th><th>Model</th><th>Year</th></tr>';
+                planes.forEach(p => {
+                    html += `<tr>
+                        <td>${p.idPlane}</td>
+                        <td>${p.brand}</td>
+                        <td>${p.model}</td>
+                        <td>${p.manufacturingYear}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('planesTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('planesTable').innerHTML = '<p style="color:red;">Error loading planes.</p>';
+            }
+        }
+
+        // Add Plane
+        async function addPlane() {
+            const plane = {
+                brand: document.getElementById('planeBrand').value,
+                model: document.getElementById('planeModel').value,
+                manufacturingYear: parseInt(document.getElementById('planeYear').value)
+            };
+            try {
+                const response = await fetch(`${API_BASE}/planes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(plane)
+                });
+                if (response.ok) {
+                    alert('Plane added successfully!');
+                    loadPlanes();
+                }
+            } catch (e) {
+                alert('Error adding plane.');
+            }
+        }
+
+        // Load Airports
+        async function loadAirports() {
+            try {
+                const response = await fetch(`${API_BASE}/airports`);
+                const airports = await response.json();
+                let html = '<table><tr><th>ID</th><th>Name</th><th>City</th><th>Country</th></tr>';
+                airports.forEach(a => {
+                    html += `<tr>
+                        <td>${a.idAirport}</td>
+                        <td>${a.nameAirport}</td>
+                        <td>${a.cityAirport}</td>
+                        <td>${a.countryAirport}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('airportsTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('airportsTable').innerHTML = '<p style="color:red;">Error loading airports.</p>';
+            }
+        }
+
+        // Add Airport
+        async function addAirport() {
+            const airport = {
+                nameAirport: document.getElementById('airportName').value,
+                countryAirport: document.getElementById('airportCountry').value,
+                cityAirport: document.getElementById('airportCity').value
+            };
+            try {
+                const response = await fetch(`${API_BASE}/airports`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(airport)
+                });
+                if (response.ok) {
+                    alert('Airport added successfully!');
+                    loadAirports();
+                }
+            } catch (e) {
+                alert('Error adding airport.');
+            }
+        }
+
+        // Load Rewards
+        async function loadRewards() {
+            try {
+                const response = await fetch(`${API_BASE}/miles-rewards`);
+                const rewards = await response.json();
+                let html = '<table><tr><th>ID</th><th>Client</th><th>Flight</th><th>Date</th><th>Discount Code</th></tr>';
+                rewards.forEach(r => {
+                    html += `<tr>
+                        <td>${r.id}</td>
+                        <td>${r.client.firstname} ${r.client.lastname}</td>
+                        <td>${r.flight.flightNumber}</td>
+                        <td>${r.date}</td>
+                        <td style="color:${r.discountCode ? 'green' : 'gray'};">${r.discountCode || 'None'}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('rewardsTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('rewardsTable').innerHTML = '<p style="color:red;">Error loading rewards.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
