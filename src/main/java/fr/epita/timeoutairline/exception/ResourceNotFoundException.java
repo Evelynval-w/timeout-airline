@@ -1,10 +1,16 @@
 package fr.epita.timeoutairline.exception;
 
-public class ResourceNotFoundException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
 
-	}
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
 
+    public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
+        super(String.format("%s not found with %s: '%s'", resourceName, fieldName, fieldValue));
+    }
 }

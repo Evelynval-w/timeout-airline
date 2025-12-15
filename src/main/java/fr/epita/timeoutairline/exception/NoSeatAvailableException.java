@@ -1,10 +1,17 @@
 package fr.epita.timeoutairline.exception;
 
-public class NoSeatAvailableException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class NoSeatAvailableException extends RuntimeException {
 
-	}
+    public NoSeatAvailableException(String flightNumber) {
+        super(String.format("No available seats on flight: %s", flightNumber));
+    }
 
+    public NoSeatAvailableException(String flightNumber, int totalSeats, int bookedSeats) {
+        super(String.format("No available seats on flight %s. Total: %d, Booked: %d", 
+            flightNumber, totalSeats, bookedSeats));
+    }
 }
