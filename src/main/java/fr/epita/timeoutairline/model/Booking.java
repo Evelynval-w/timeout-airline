@@ -8,23 +8,23 @@ import java.time.LocalDateTime;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto_increment
     private Long idReservation;
 
-    @ManyToOne
-    @JoinColumn(name = "flight_number")
+    @ManyToOne // many bookings can have same flight number 
+    @JoinColumn(name = "flight_number")  // flight number is a foreign key added to booking
     private Flight flight;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // this tells JPA how to store the enum 
     private SeatType typeOfSeat;
 
     private LocalDateTime bookingDate;
 
-    // Enum for seat types
+    // Enum for seat types   -- a fixed set of allowed values 
     public enum SeatType {
         FIRST_CLASS,
         PREMIUM,
@@ -34,7 +34,8 @@ public class Booking {
 
     // Default constructor
     public Booking() {
-        this.bookingDate = LocalDateTime.now();
+        this.bookingDate = LocalDateTime.now();   /// why the defaukt constructor is not empty... when hibernate creates booking 
+        //and calls the default constructor, the bookingDate will be filled autoamtically
     }
 
     // Constructor with fields

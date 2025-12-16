@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Airport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto increment
     private Long idAirport;
 
     private String nameAirport;
