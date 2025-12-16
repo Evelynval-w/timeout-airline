@@ -7,6 +7,7 @@ public class BookingRequest {
 
     private String lastname;
     private String firstname;
+    private String email;  // ADD THIS
     private String passportNumber;
     private LocalDate birthdate;
     private String departureCity;
@@ -16,8 +17,16 @@ public class BookingRequest {
     private String flightNumber;
     private SeatType typeOfSeat;
 
-    // Default constructor
     public BookingRequest() {
+    }
+
+    // ADD getter and setter for email
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     // Getters and Setters
