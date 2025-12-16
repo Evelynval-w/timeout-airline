@@ -17,7 +17,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         header {
@@ -29,6 +29,9 @@
         header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+        }
+        header p {
+            opacity: 0.9;
         }
         .card {
             background: white;
@@ -59,6 +62,11 @@
             border-radius: 5px;
             font-size: 14px;
         }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 5px rgba(30,60,114,0.3);
+        }
         button {
             background: #1e3c72;
             color: white;
@@ -66,9 +74,10 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 10px;
             margin-top: 10px;
+            transition: background 0.3s;
         }
         button:hover {
             background: #2a5298;
@@ -76,23 +85,34 @@
         .btn-danger {
             background: #dc3545;
         }
+        .btn-danger:hover {
+            background: #c82333;
+        }
         .btn-success {
             background: #28a745;
         }
-        #results {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            white-space: pre-wrap;
-            font-family: monospace;
-            max-height: 400px;
-            overflow-y: auto;
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin: 2px;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
         table {
             width: 100%;
@@ -100,13 +120,14 @@
             margin-top: 15px;
         }
         th, td {
-            padding: 10px;
+            padding: 12px 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
         th {
             background: #1e3c72;
             color: white;
+            font-weight: 600;
         }
         tr:hover {
             background: #f5f5f5;
@@ -115,15 +136,19 @@
             display: flex;
             margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 5px;
         }
         .tab {
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: rgba(255,255,255,0.2);
             color: white;
             cursor: pointer;
             border-radius: 5px 5px 0 0;
-            margin-right: 5px;
-            margin-bottom: 5px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .tab:hover {
+            background: rgba(255,255,255,0.4);
         }
         .tab.active {
             background: white;
@@ -135,38 +160,194 @@
         .tab-content.active {
             display: block;
         }
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+        .badge-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h3 {
+            color: #1e3c72;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .empty-state p {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>✈️ Timeout Airline</h1>
-            <p>Flight Booking Management System</p>
+            <p>Flight Booking Management System - EPITA Java Project</p>
         </header>
 
         <div class="tabs">
-            <div class="tab active" onclick="showTab('flights')">Flights</div>
-            <div class="tab" onclick="showTab('search')">Search Flights</div>
-            <div class="tab" onclick="showTab('booking')">Book Flight</div>
-            <div class="tab" onclick="showTab('clients')">Clients</div>
-            <div class="tab" onclick="showTab('planes')">Planes</div>
-            <div class="tab" onclick="showTab('airports')">Airports</div>
-            <div class="tab" onclick="showTab('rewards')">Miles Rewards</div>
+            <div class="tab active" onclick="showTab('flights')">✈️ Flights</div>
+            <div class="tab" onclick="showTab('search')">🔍 Search</div>
+            <div class="tab" onclick="showTab('booking')"> Book Flight</div>
+            <div class="tab" onclick="showTab('bookings')">📋 Bookings</div>
+            <div class="tab" onclick="showTab('clients')">👤 Clients</div>
+            <div class="tab" onclick="showTab('users')">👥 Users</div>
+            <div class="tab" onclick="showTab('employees')"> Employees</div>
+            <div class="tab" onclick="showTab('planes')">🛩️ Planes</div>
+            <div class="tab" onclick="showTab('airports')"> Airports</div>
+            <div class="tab" onclick="showTab('rewards')"> Miles Rewards</div>
         </div>
 
         <!-- FLIGHTS TAB -->
         <div id="flights" class="tab-content active">
             <div class="card">
-                <h2>All Flights</h2>
-                <button onclick="loadFlights()">Load Flights</button>
-                <div id="flightsTable"></div>
+                <h2>✈️ All Flights</h2>
+                <button onclick="loadFlights()">🔄 Refresh</button>
+                <div id="flightsTable"><p class="loading">Click "Refresh" to load flights...</p></div>
+            </div>
+            <div class="card">
+                <h2>➕ Add New Flight</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Flight Number *</label>
+                        <input type="text" id="flightNumber" placeholder="e.g., TA101">
+                    </div>
+                    <div class="form-group">
+                        <label>Departure City *</label>
+                        <input type="text" id="flightDepartureCity" placeholder="e.g., Paris">
+                    </div>
+                    <div class="form-group">
+                        <label>Arrival City *</label>
+                        <input type="text" id="flightArrivalCity" placeholder="e.g., London">
+                    </div>
+                    <div class="form-group">
+                        <label>Departure Hour</label>
+                        <input type="text" id="flightDepartureHour" placeholder="e.g., 08:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Arrival Hour</label>
+                        <input type="text" id="flightArrivalHour" placeholder="e.g., 09:30">
+                    </div>
+                    <div class="form-group">
+                        <label>Departure Date *</label>
+                        <input type="date" id="flightDepartureDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Seats *</label>
+                        <input type="number" id="flightSeats" placeholder="e.g., 150">
+                    </div>
+                    <div class="form-group">
+                        <label>First Class Price (€)</label>
+                        <input type="number" step="0.01" id="flightFirstClass" placeholder="e.g., 500">
+                    </div>
+                    <div class="form-group">
+                        <label>Premium Price (€)</label>
+                        <input type="number" step="0.01" id="flightPremium" placeholder="e.g., 300">
+                    </div>
+                    <div class="form-group">
+                        <label>Business Price (€)</label>
+                        <input type="number" step="0.01" id="flightBusiness" placeholder="e.g., 200">
+                    </div>
+                    <div class="form-group">
+                        <label>Economics Price (€)</label>
+                        <input type="number" step="0.01" id="flightEconomics" placeholder="e.g., 100">
+                    </div>
+                    <div class="form-group">
+                        <label>Plane ID *</label>
+                        <input type="number" id="flightPlaneId" placeholder="e.g., 1">
+                    </div>
+                    <div class="form-group">
+                        <label>Departure Airport ID *</label>
+                        <input type="number" id="flightDepartureAirportId" placeholder="e.g., 1">
+                    </div>
+                    <div class="form-group">
+                        <label>Arrival Airport ID *</label>
+                        <input type="number" id="flightArrivalAirportId" placeholder="e.g., 2">
+                    </div>
+                </div>
+                <button class="btn-success" onclick="addFlight()">➕ Add Flight</button>
+                <div id="flightResult"></div>
             </div>
         </div>
 
         <!-- SEARCH TAB -->
         <div id="search" class="tab-content">
             <div class="card">
-                <h2>Search Flights</h2>
+                <h2>🔍 Search Flights</h2>
                 <div class="grid">
                     <div class="form-group">
                         <label>From (Departure City)</label>
@@ -181,7 +362,7 @@
                         <input type="date" id="searchDate">
                     </div>
                 </div>
-                <button onclick="searchFlights()">🔍 Search</button>
+                <button onclick="searchFlights()">🔍 Search Flights</button>
                 <div id="searchResults"></div>
             </div>
         </div>
@@ -189,34 +370,39 @@
         <!-- BOOKING TAB -->
         <div id="booking" class="tab-content">
             <div class="card">
-                <h2>Book a Flight</h2>
+                <h2>📝 Book a Flight</h2>
+                <p style="color:#666; margin-bottom:20px;">New customers will be automatically registered. Existing customers (by passport) will be recognized.</p>
                 <div class="grid">
                     <div class="form-group">
-                        <label>First Name</label>
+                        <label>First Name *</label>
                         <input type="text" id="bookFirstname" placeholder="John">
                     </div>
                     <div class="form-group">
-                        <label>Last Name</label>
+                        <label>Last Name *</label>
                         <input type="text" id="bookLastname" placeholder="Doe">
                     </div>
                     <div class="form-group">
-                        <label>Passport Number</label>
+                        <label>Email *</label>
+                        <input type="email" id="bookEmail" placeholder="john.doe@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Passport Number *</label>
                         <input type="text" id="bookPassport" placeholder="AB123456">
                     </div>
                     <div class="form-group">
-                        <label>Birthdate</label>
+                        <label>Birthdate *</label>
                         <input type="date" id="bookBirthdate">
                     </div>
                     <div class="form-group">
-                        <label>Flight Number</label>
+                        <label>Flight Number *</label>
                         <input type="text" id="bookFlightNumber" placeholder="TA101">
                     </div>
                     <div class="form-group">
-                        <label>Seat Type</label>
+                        <label>Seat Type *</label>
                         <select id="bookSeatType">
-                            <option value="ECONOMICS">Economics</option>
-                            <option value="BUSINESS">Business</option>
-                            <option value="PREMIUM">Premium</option>
+                            <option value="ECONOMICS">Economics Class</option>
+                            <option value="BUSINESS">Business Class</option>
+                            <option value="PREMIUM">Premium Class</option>
                             <option value="FIRST_CLASS">First Class</option>
                         </select>
                     </div>
@@ -226,84 +412,235 @@
             </div>
         </div>
 
+        <!-- BOOKINGS LIST TAB -->
+        <div id="bookings" class="tab-content">
+            <div class="card">
+                <h2> All Bookings</h2>
+                <button onclick="loadBookings()">🔄 Refresh</button>
+                <div id="bookingsTable"><p class="loading">Click "Refresh" to load bookings...</p></div>
+            </div>
+        </div>
+
         <!-- CLIENTS TAB -->
         <div id="clients" class="tab-content">
             <div class="card">
-                <h2>All Clients</h2>
-                <button onclick="loadClients()">Load Clients</button>
-                <div id="clientsTable"></div>
+                <h2>👤 All Clients</h2>
+                <button onclick="loadClients()">🔄 Refresh</button>
+                <div id="clientsTable"><p class="loading">Click "Refresh" to load clients...</p></div>
+            </div>
+            <div class="card">
+                <h2>➕ Add New Client</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" id="clientFirstname" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" id="clientLastname" placeholder="Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="clientEmail" placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="clientPhone" placeholder="+33123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="clientAddress" placeholder="123 Main St, Paris">
+                    </div>
+                    <div class="form-group">
+                        <label>Birthdate *</label>
+                        <input type="date" id="clientBirthdate">
+                    </div>
+                    <div class="form-group">
+                        <label>Passport Number *</label>
+                        <input type="text" id="clientPassport" placeholder="AB123456">
+                    </div>
+                </div>
+                <button class="btn-success" onclick="addClient()">➕ Add Client</button>
+                <div id="clientResult"></div>
+            </div>
+        </div>
+
+        <!-- USERS TAB -->
+        <div id="users" class="tab-content">
+            <div class="card">
+                <h2>👥 All Users</h2>
+                <button onclick="loadUsers()">🔄 Refresh</button>
+                <div id="usersTable"><p class="loading">Click "Refresh" to load users...</p></div>
+            </div>
+            <div class="card">
+                <h2>➕ Add New User</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" id="userFirstname" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" id="userLastname" placeholder="Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="userEmail" placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="userPhone" placeholder="+33123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="userAddress" placeholder="123 Main St, Paris">
+                    </div>
+                    <div class="form-group">
+                        <label>Birthdate</label>
+                        <input type="date" id="userBirthdate">
+                    </div>
+                </div>
+                <button class="btn-success" onclick="addUser()">➕ Add User</button>
+                <div id="userResult"></div>
+            </div>
+        </div>
+
+        <!-- EMPLOYEES TAB -->
+        <div id="employees" class="tab-content">
+            <div class="card">
+                <h2> All Employees</h2>
+                <button onclick="loadEmployees()">🔄 Refresh</button>
+                <div id="employeesTable"><p class="loading">Click "Refresh" to load employees...</p></div>
+            </div>
+            <div class="card">
+                <h2>➕ Add New Employee</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" id="empFirstname" placeholder="Mike">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" id="empLastname" placeholder="Johnson">
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="empEmail" placeholder="mike@airline.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="empPhone" placeholder="+33123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="empAddress" placeholder="456 Airport Ave">
+                    </div>
+                    <div class="form-group">
+                        <label>Birthdate</label>
+                        <input type="date" id="empBirthdate">
+                    </div>
+                    <div class="form-group">
+                        <label>Employee Number *</label>
+                        <input type="text" id="empNumber" placeholder="E001">
+                    </div>
+                    <div class="form-group">
+                        <label>Profession *</label>
+                        <input type="text" id="empProfession" placeholder="Pilot">
+                    </div>
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="empTitle" placeholder="Captain">
+                    </div>
+                </div>
+                <button class="btn-success" onclick="addEmployee()">➕ Add Employee</button>
+                <div id="employeeResult"></div>
             </div>
         </div>
 
         <!-- PLANES TAB -->
         <div id="planes" class="tab-content">
             <div class="card">
-                <h2>All Planes</h2>
-                <button onclick="loadPlanes()">Load Planes</button>
-                <div id="planesTable"></div>
+                <h2>🛩️ All Planes</h2>
+                <button onclick="loadPlanes()">🔄 Refresh</button>
+                <div id="planesTable"><p class="loading">Click "Refresh" to load planes...</p></div>
             </div>
             <div class="card">
-                <h2>Add New Plane</h2>
-                <div class="grid">
+                <h2>➕ Add New Plane</h2>
+                <div class="grid grid-3">
                     <div class="form-group">
-                        <label>Brand</label>
+                        <label>Brand *</label>
                         <input type="text" id="planeBrand" placeholder="Boeing">
                     </div>
                     <div class="form-group">
-                        <label>Model</label>
+                        <label>Model *</label>
                         <input type="text" id="planeModel" placeholder="737">
                     </div>
                     <div class="form-group">
-                        <label>Manufacturing Year</label>
+                        <label>Manufacturing Year *</label>
                         <input type="number" id="planeYear" placeholder="2020">
                     </div>
                 </div>
-                <button class="btn-success" onclick="addPlane()">+ Add Plane</button>
+                <button class="btn-success" onclick="addPlane()">➕ Add Plane</button>
+                <div id="planeResult"></div>
             </div>
         </div>
 
         <!-- AIRPORTS TAB -->
         <div id="airports" class="tab-content">
             <div class="card">
-                <h2>All Airports</h2>
-                <button onclick="loadAirports()">Load Airports</button>
-                <div id="airportsTable"></div>
+                <h2> All Airports</h2>
+                <button onclick="loadAirports()">🔄 Refresh</button>
+                <div id="airportsTable"><p class="loading">Click "Refresh" to load airports...</p></div>
             </div>
             <div class="card">
-                <h2>Add New Airport</h2>
-                <div class="grid">
+                <h2>➕ Add New Airport</h2>
+                <div class="grid grid-3">
                     <div class="form-group">
-                        <label>Airport Name</label>
+                        <label>Airport Name *</label>
                         <input type="text" id="airportName" placeholder="Charles de Gaulle">
                     </div>
                     <div class="form-group">
-                        <label>Country</label>
+                        <label>Country *</label>
                         <input type="text" id="airportCountry" placeholder="France">
                     </div>
                     <div class="form-group">
-                        <label>City</label>
+                        <label>City *</label>
                         <input type="text" id="airportCity" placeholder="Paris">
                     </div>
                 </div>
-                <button class="btn-success" onclick="addAirport()">+ Add Airport</button>
+                <button class="btn-success" onclick="addAirport()">➕ Add Airport</button>
+                <div id="airportResult"></div>
             </div>
         </div>
 
         <!-- REWARDS TAB -->
         <div id="rewards" class="tab-content">
             <div class="card">
-                <h2>Miles Rewards</h2>
-                <button onclick="loadRewards()">Load Rewards</button>
-                <p style="margin-top:10px; color:#666;">Clients get a discount code after every 3 flights in the same year!</p>
-                <div id="rewardsTable"></div>
+                <h2> Miles Rewards</h2>
+                <button onclick="loadRewards()">🔄 Refresh</button>
+                <div class="alert alert-info" style="margin-top:15px;">
+                    <strong>How it works:</strong> Clients earn a discount code after every 3 flights in the same calendar year!
+                </div>
+                <div id="rewardsTable"><p class="loading">Click "Refresh" to load rewards...</p></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Edit</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody"></div>
         </div>
     </div>
 
     <script>
         const API_BASE = 'http://localhost:8084/api/v1';
 
-        // Tab switching
+        // ==================== TAB SWITCHING ====================
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -311,30 +648,97 @@
             event.target.classList.add('active');
         }
 
-        // Load Flights
+        // ==================== MODAL ====================
+        function openModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = content;
+            document.getElementById('editModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('show');
+        }
+
+        // ==================== FLIGHTS ====================
         async function loadFlights() {
             try {
                 const response = await fetch(`${API_BASE}/flights`);
                 const flights = await response.json();
-                let html = '<table><tr><th>Flight #</th><th>From</th><th>To</th><th>Date</th><th>Seats</th><th>Economy Price</th></tr>';
+                if (flights.length === 0) {
+                    document.getElementById('flightsTable').innerHTML = '<div class="empty-state"><p>No flights found. Add one below!</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>Flight #</th><th>From</th><th>To</th><th>Date</th><th>Time</th><th>Seats</th><th>Economy €</th><th>Actions</th></tr>';
                 flights.forEach(f => {
                     html += `<tr>
-                        <td>${f.flightNumber}</td>
+                        <td><strong>${f.flightNumber}</strong></td>
                         <td>${f.departureCity}</td>
                         <td>${f.arrivalCity}</td>
-                        <td>${f.departureDate}</td>
+                        <td>${f.departureDate || '-'}</td>
+                        <td>${f.departureHour || '-'} → ${f.arrivalHour || '-'}</td>
                         <td>${f.numberOfSeat}</td>
-                        <td>€${f.economicsClassPrice}</td>
+                        <td>€${f.economicsClassPrice || 0}</td>
+                        <td>
+                            <button class="btn-danger btn-sm" onclick="deleteFlight('${f.flightNumber}')">🗑️</button>
+                        </td>
                     </tr>`;
                 });
                 html += '</table>';
                 document.getElementById('flightsTable').innerHTML = html;
             } catch (e) {
-                document.getElementById('flightsTable').innerHTML = '<p style="color:red;">Error loading flights. Is the server running?</p>';
+                document.getElementById('flightsTable').innerHTML = '<div class="alert alert-danger">Error loading flights. Is the server running on port 8084?</div>';
             }
         }
 
-        // Search Flights
+        async function addFlight() {
+            const flight = {
+                flightNumber: document.getElementById('flightNumber').value,
+                departureCity: document.getElementById('flightDepartureCity').value,
+                arrivalCity: document.getElementById('flightArrivalCity').value,
+                departureHour: document.getElementById('flightDepartureHour').value,
+                arrivalHour: document.getElementById('flightArrivalHour').value,
+                departureDate: document.getElementById('flightDepartureDate').value,
+                numberOfSeat: parseInt(document.getElementById('flightSeats').value),
+                firstClassSeatPrice: parseFloat(document.getElementById('flightFirstClass').value) || 0,
+                premiumSeatPrice: parseFloat(document.getElementById('flightPremium').value) || 0,
+                businessClassPrice: parseFloat(document.getElementById('flightBusiness').value) || 0,
+                economicsClassPrice: parseFloat(document.getElementById('flightEconomics').value) || 0,
+                plane: { idPlane: parseInt(document.getElementById('flightPlaneId').value) },
+                departureAirport: { idAirport: parseInt(document.getElementById('flightDepartureAirportId').value) },
+                arrivalAirport: { idAirport: parseInt(document.getElementById('flightArrivalAirportId').value) }
+            };
+            try {
+                const response = await fetch(`${API_BASE}/flights`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(flight)
+                });
+                if (response.ok) {
+                    document.getElementById('flightResult').innerHTML = '<div class="alert alert-success">✅ Flight added successfully!</div>';
+                    loadFlights();
+                    // Clear form
+                    ['flightNumber', 'flightDepartureCity', 'flightArrivalCity', 'flightDepartureHour', 'flightArrivalHour', 'flightDepartureDate', 'flightSeats', 'flightFirstClass', 'flightPremium', 'flightBusiness', 'flightEconomics', 'flightPlaneId', 'flightDepartureAirportId', 'flightArrivalAirportId'].forEach(id => document.getElementById(id).value = '');
+                } else {
+                    const error = await response.json();
+                    document.getElementById('flightResult').innerHTML = `<div class="alert alert-danger">❌ ${error.message || 'Error adding flight'}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('flightResult').innerHTML = '<div class="alert alert-danger">❌ Error adding flight. Check console for details.</div>';
+                console.error(e);
+            }
+        }
+
+        async function deleteFlight(flightNumber) {
+            if (!confirm(`Are you sure you want to delete flight ${flightNumber}?`)) return;
+            try {
+                await fetch(`${API_BASE}/flights/${flightNumber}`, { method: 'DELETE' });
+                loadFlights();
+            } catch (e) {
+                alert('Error deleting flight');
+            }
+        }
+
+        // ==================== SEARCH FLIGHTS ====================
         async function searchFlights() {
             const from = document.getElementById('searchFrom').value;
             const to = document.getElementById('searchTo').value;
@@ -343,32 +747,34 @@
                 const response = await fetch(`${API_BASE}/flights/search?from=${from}&to=${to}&date=${date}`);
                 const flights = await response.json();
                 if (flights.length === 0) {
-                    document.getElementById('searchResults').innerHTML = '<p>No flights found.</p>';
+                    document.getElementById('searchResults').innerHTML = '<div class="alert alert-info">No flights found for your search criteria.</div>';
                     return;
                 }
-                let html = '<table><tr><th>Flight #</th><th>From</th><th>To</th><th>Departure</th><th>Arrival</th><th>Economy</th></tr>';
+                let html = '<table><tr><th>Flight #</th><th>From</th><th>To</th><th>Departure</th><th>Arrival</th><th>Economy €</th><th>Business €</th></tr>';
                 flights.forEach(f => {
                     html += `<tr>
-                        <td>${f.flightNumber}</td>
+                        <td><strong>${f.flightNumber}</strong></td>
                         <td>${f.departureCity}</td>
                         <td>${f.arrivalCity}</td>
-                        <td>${f.departureHour}</td>
-                        <td>${f.arrivalHour}</td>
+                        <td>${f.departureHour || '-'}</td>
+                        <td>${f.arrivalHour || '-'}</td>
                         <td>€${f.economicsClassPrice}</td>
+                        <td>€${f.businessClassPrice}</td>
                     </tr>`;
                 });
                 html += '</table>';
                 document.getElementById('searchResults').innerHTML = html;
             } catch (e) {
-                document.getElementById('searchResults').innerHTML = '<p style="color:red;">Error searching flights.</p>';
+                document.getElementById('searchResults').innerHTML = '<div class="alert alert-danger">Error searching flights.</div>';
             }
         }
 
-        // Book Flight
+        // ==================== BOOK FLIGHT ====================
         async function bookFlight() {
             const booking = {
                 firstname: document.getElementById('bookFirstname').value,
                 lastname: document.getElementById('bookLastname').value,
+                email: document.getElementById('bookEmail').value,
                 passportNumber: document.getElementById('bookPassport').value,
                 birthdate: document.getElementById('bookBirthdate').value,
                 flightNumber: document.getElementById('bookFlightNumber').value,
@@ -382,58 +788,403 @@
                 });
                 const result = await response.json();
                 if (response.ok) {
-                    document.getElementById('bookingResult').innerHTML = `<p style="color:green;">✅ Booking successful! Reservation ID: ${result.idReservation}</p>`;
+                    document.getElementById('bookingResult').innerHTML = `<div class="alert alert-success">✅ Booking successful!<br>Reservation ID: <strong>${result.idReservation}</strong><br>Flight: ${result.flight?.flightNumber || booking.flightNumber}<br>Seat: ${result.typeOfSeat}</div>`;
+                    // Clear form
+                    ['bookFirstname', 'bookLastname', 'bookEmail', 'bookPassport', 'bookBirthdate', 'bookFlightNumber'].forEach(id => document.getElementById(id).value = '');
                 } else {
-                    document.getElementById('bookingResult').innerHTML = `<p style="color:red;">❌ ${result.message || result}</p>`;
+                    document.getElementById('bookingResult').innerHTML = `<div class="alert alert-danger">❌ ${result.message || 'Error booking flight'}</div>`;
                 }
             } catch (e) {
-                document.getElementById('bookingResult').innerHTML = '<p style="color:red;">Error booking flight.</p>';
+                document.getElementById('bookingResult').innerHTML = '<div class="alert alert-danger">❌ Error booking flight. Make sure the flight exists!</div>';
             }
         }
 
-        // Load Clients
+        // ==================== BOOKINGS ====================
+        async function loadBookings() {
+            try {
+                const response = await fetch(`${API_BASE}/bookings`);
+                const bookings = await response.json();
+                if (bookings.length === 0) {
+                    document.getElementById('bookingsTable').innerHTML = '<div class="empty-state"><p>No bookings found.</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>ID</th><th>Client</th><th>Flight</th><th>Seat Type</th><th>Date</th><th>Actions</th></tr>';
+                bookings.forEach(b => {
+                    html += `<tr>
+                        <td>${b.idReservation}</td>
+                        <td>${b.client?.firstname || '-'} ${b.client?.lastname || ''}</td>
+                        <td>${b.flight?.flightNumber || '-'}</td>
+                        <td><span class="status-badge badge-success">${b.typeOfSeat}</span></td>
+                        <td>${b.bookingDate ? new Date(b.bookingDate).toLocaleDateString() : '-'}</td>
+                        <td>
+                            <button class="btn-danger btn-sm" onclick="deleteBooking(${b.idReservation})">🗑️</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('bookingsTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('bookingsTable').innerHTML = '<div class="alert alert-danger">Error loading bookings.</div>';
+            }
+        }
+
+        async function deleteBooking(id) {
+            if (!confirm('Are you sure you want to cancel this booking?')) return;
+            try {
+                await fetch(`${API_BASE}/bookings/${id}`, { method: 'DELETE' });
+                loadBookings();
+            } catch (e) {
+                alert('Error canceling booking');
+            }
+        }
+
+        // ==================== CLIENTS ====================
         async function loadClients() {
             try {
                 const response = await fetch(`${API_BASE}/clients`);
                 const clients = await response.json();
-                let html = '<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Passport</th></tr>';
+                if (clients.length === 0) {
+                    document.getElementById('clientsTable').innerHTML = '<div class="empty-state"><p>No clients found. Add one below!</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Passport</th><th>Actions</th></tr>';
                 clients.forEach(c => {
                     html += `<tr>
                         <td>${c.idUser}</td>
                         <td>${c.firstname} ${c.lastname}</td>
                         <td>${c.email || '-'}</td>
-                        <td>${c.numPassport}</td>
+                        <td>${c.phone || '-'}</td>
+                        <td><strong>${c.numPassport}</strong></td>
+                        <td>
+                            <button class="btn-warning btn-sm" onclick="editClient(${c.idUser}, '${c.firstname}', '${c.lastname}', '${c.email || ''}', '${c.phone || ''}', '${c.address || ''}', '${c.birthdate || ''}', '${c.numPassport}')">✏️</button>
+                            <button class="btn-danger btn-sm" onclick="deleteClient(${c.idUser})">🗑️</button>
+                        </td>
                     </tr>`;
                 });
                 html += '</table>';
                 document.getElementById('clientsTable').innerHTML = html;
             } catch (e) {
-                document.getElementById('clientsTable').innerHTML = '<p style="color:red;">Error loading clients.</p>';
+                document.getElementById('clientsTable').innerHTML = '<div class="alert alert-danger">Error loading clients.</div>';
             }
         }
 
-        // Load Planes
+        async function addClient() {
+            const client = {
+                firstname: document.getElementById('clientFirstname').value,
+                lastname: document.getElementById('clientLastname').value,
+                email: document.getElementById('clientEmail').value,
+                phone: document.getElementById('clientPhone').value,
+                address: document.getElementById('clientAddress').value,
+                birthdate: document.getElementById('clientBirthdate').value,
+                numPassport: document.getElementById('clientPassport').value
+            };
+            try {
+                const response = await fetch(`${API_BASE}/clients`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(client)
+                });
+                if (response.ok) {
+                    document.getElementById('clientResult').innerHTML = '<div class="alert alert-success">✅ Client added successfully!</div>';
+                    loadClients();
+                    ['clientFirstname', 'clientLastname', 'clientEmail', 'clientPhone', 'clientAddress', 'clientBirthdate', 'clientPassport'].forEach(id => document.getElementById(id).value = '');
+                } else {
+                    const error = await response.json();
+                    document.getElementById('clientResult').innerHTML = `<div class="alert alert-danger">❌ ${error.message || 'Error adding client'}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('clientResult').innerHTML = '<div class="alert alert-danger">❌ Error adding client.</div>';
+            }
+        }
+
+        function editClient(id, firstname, lastname, email, phone, address, birthdate, passport) {
+            const content = `
+                <div class="form-group"><label>First Name</label><input type="text" id="editClientFirstname" value="${firstname}"></div>
+                <div class="form-group"><label>Last Name</label><input type="text" id="editClientLastname" value="${lastname}"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="editClientEmail" value="${email}"></div>
+                <div class="form-group"><label>Phone</label><input type="text" id="editClientPhone" value="${phone}"></div>
+                <div class="form-group"><label>Address</label><input type="text" id="editClientAddress" value="${address}"></div>
+                <div class="form-group"><label>Birthdate</label><input type="date" id="editClientBirthdate" value="${birthdate}"></div>
+                <div class="form-group"><label>Passport</label><input type="text" id="editClientPassport" value="${passport}"></div>
+                <button class="btn-success" onclick="updateClient(${id})">💾 Save Changes</button>
+            `;
+            openModal('Edit Client', content);
+        }
+
+        async function updateClient(id) {
+            const client = {
+                firstname: document.getElementById('editClientFirstname').value,
+                lastname: document.getElementById('editClientLastname').value,
+                email: document.getElementById('editClientEmail').value,
+                phone: document.getElementById('editClientPhone').value,
+                address: document.getElementById('editClientAddress').value,
+                birthdate: document.getElementById('editClientBirthdate').value,
+                numPassport: document.getElementById('editClientPassport').value
+            };
+            try {
+                await fetch(`${API_BASE}/clients/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(client)
+                });
+                closeModal();
+                loadClients();
+            } catch (e) {
+                alert('Error updating client');
+            }
+        }
+
+        async function deleteClient(id) {
+            if (!confirm('Are you sure you want to delete this client?')) return;
+            try {
+                await fetch(`${API_BASE}/clients/${id}`, { method: 'DELETE' });
+                loadClients();
+            } catch (e) {
+                alert('Error deleting client');
+            }
+        }
+
+        // ==================== USERS ====================
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/users`);
+                const users = await response.json();
+                if (users.length === 0) {
+                    document.getElementById('usersTable').innerHTML = '<div class="empty-state"><p>No users found.</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Actions</th></tr>';
+                users.forEach(u => {
+                    html += `<tr>
+                        <td>${u.idUser}</td>
+                        <td>${u.firstname} ${u.lastname}</td>
+                        <td>${u.email || '-'}</td>
+                        <td>${u.phone || '-'}</td>
+                        <td>
+                            <button class="btn-warning btn-sm" onclick="editUser(${u.idUser}, '${u.firstname}', '${u.lastname}', '${u.email || ''}', '${u.phone || ''}', '${u.address || ''}', '${u.birthdate || ''}')">✏️</button>
+                            <button class="btn-danger btn-sm" onclick="deleteUser(${u.idUser})">🗑️</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('usersTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('usersTable').innerHTML = '<div class="alert alert-danger">Error loading users.</div>';
+            }
+        }
+
+        async function addUser() {
+            const user = {
+                firstname: document.getElementById('userFirstname').value,
+                lastname: document.getElementById('userLastname').value,
+                email: document.getElementById('userEmail').value,
+                phone: document.getElementById('userPhone').value,
+                address: document.getElementById('userAddress').value,
+                birthdate: document.getElementById('userBirthdate').value
+            };
+            try {
+                const response = await fetch(`${API_BASE}/users`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user)
+                });
+                if (response.ok) {
+                    document.getElementById('userResult').innerHTML = '<div class="alert alert-success">✅ User added successfully!</div>';
+                    loadUsers();
+                    ['userFirstname', 'userLastname', 'userEmail', 'userPhone', 'userAddress', 'userBirthdate'].forEach(id => document.getElementById(id).value = '');
+                } else {
+                    document.getElementById('userResult').innerHTML = '<div class="alert alert-danger">❌ Error adding user</div>';
+                }
+            } catch (e) {
+                document.getElementById('userResult').innerHTML = '<div class="alert alert-danger">❌ Error adding user.</div>';
+            }
+        }
+
+        function editUser(id, firstname, lastname, email, phone, address, birthdate) {
+            const content = `
+                <div class="form-group"><label>First Name</label><input type="text" id="editUserFirstname" value="${firstname}"></div>
+                <div class="form-group"><label>Last Name</label><input type="text" id="editUserLastname" value="${lastname}"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="editUserEmail" value="${email}"></div>
+                <div class="form-group"><label>Phone</label><input type="text" id="editUserPhone" value="${phone}"></div>
+                <div class="form-group"><label>Address</label><input type="text" id="editUserAddress" value="${address}"></div>
+                <div class="form-group"><label>Birthdate</label><input type="date" id="editUserBirthdate" value="${birthdate}"></div>
+                <button class="btn-success" onclick="updateUser(${id})">💾 Save Changes</button>
+            `;
+            openModal('Edit User', content);
+        }
+
+        async function updateUser(id) {
+            const user = {
+                firstname: document.getElementById('editUserFirstname').value,
+                lastname: document.getElementById('editUserLastname').value,
+                email: document.getElementById('editUserEmail').value,
+                phone: document.getElementById('editUserPhone').value,
+                address: document.getElementById('editUserAddress').value,
+                birthdate: document.getElementById('editUserBirthdate').value
+            };
+            try {
+                await fetch(`${API_BASE}/users/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user)
+                });
+                closeModal();
+                loadUsers();
+            } catch (e) {
+                alert('Error updating user');
+            }
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('Are you sure you want to delete this user?')) return;
+            try {
+                await fetch(`${API_BASE}/users/${id}`, { method: 'DELETE' });
+                loadUsers();
+            } catch (e) {
+                alert('Error deleting user');
+            }
+        }
+
+        // ==================== EMPLOYEES ====================
+        async function loadEmployees() {
+            try {
+                const response = await fetch(`${API_BASE}/employees`);
+                const employees = await response.json();
+                if (employees.length === 0) {
+                    document.getElementById('employeesTable').innerHTML = '<div class="empty-state"><p>No employees found. Add one below!</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>ID</th><th>Emp #</th><th>Name</th><th>Profession</th><th>Title</th><th>Actions</th></tr>';
+                employees.forEach(e => {
+                    html += `<tr>
+                        <td>${e.idUser}</td>
+                        <td><strong>${e.numEmp}</strong></td>
+                        <td>${e.firstname} ${e.lastname}</td>
+                        <td>${e.profession || '-'}</td>
+                        <td>${e.title || '-'}</td>
+                        <td>
+                            <button class="btn-warning btn-sm" onclick="editEmployee(${e.idUser}, '${e.firstname}', '${e.lastname}', '${e.email || ''}', '${e.phone || ''}', '${e.address || ''}', '${e.birthdate || ''}', '${e.numEmp}', '${e.profession || ''}', '${e.title || ''}')">✏️</button>
+                            <button class="btn-danger btn-sm" onclick="deleteEmployee(${e.idUser})">🗑️</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('employeesTable').innerHTML = html;
+            } catch (e) {
+                document.getElementById('employeesTable').innerHTML = '<div class="alert alert-danger">Error loading employees.</div>';
+            }
+        }
+
+        async function addEmployee() {
+            const employee = {
+                firstname: document.getElementById('empFirstname').value,
+                lastname: document.getElementById('empLastname').value,
+                email: document.getElementById('empEmail').value,
+                phone: document.getElementById('empPhone').value,
+                address: document.getElementById('empAddress').value,
+                birthdate: document.getElementById('empBirthdate').value,
+                numEmp: document.getElementById('empNumber').value,
+                profession: document.getElementById('empProfession').value,
+                title: document.getElementById('empTitle').value
+            };
+            try {
+                const response = await fetch(`${API_BASE}/employees`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(employee)
+                });
+                if (response.ok) {
+                    document.getElementById('employeeResult').innerHTML = '<div class="alert alert-success">✅ Employee added successfully!</div>';
+                    loadEmployees();
+                    ['empFirstname', 'empLastname', 'empEmail', 'empPhone', 'empAddress', 'empBirthdate', 'empNumber', 'empProfession', 'empTitle'].forEach(id => document.getElementById(id).value = '');
+                } else {
+                    document.getElementById('employeeResult').innerHTML = '<div class="alert alert-danger">❌ Error adding employee</div>';
+                }
+            } catch (e) {
+                document.getElementById('employeeResult').innerHTML = '<div class="alert alert-danger">❌ Error adding employee.</div>';
+            }
+        }
+
+        function editEmployee(id, firstname, lastname, email, phone, address, birthdate, numEmp, profession, title) {
+            const content = `
+                <div class="form-group"><label>First Name</label><input type="text" id="editEmpFirstname" value="${firstname}"></div>
+                <div class="form-group"><label>Last Name</label><input type="text" id="editEmpLastname" value="${lastname}"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="editEmpEmail" value="${email}"></div>
+                <div class="form-group"><label>Phone</label><input type="text" id="editEmpPhone" value="${phone}"></div>
+                <div class="form-group"><label>Address</label><input type="text" id="editEmpAddress" value="${address}"></div>
+                <div class="form-group"><label>Birthdate</label><input type="date" id="editEmpBirthdate" value="${birthdate}"></div>
+                <div class="form-group"><label>Employee Number</label><input type="text" id="editEmpNumber" value="${numEmp}"></div>
+                <div class="form-group"><label>Profession</label><input type="text" id="editEmpProfession" value="${profession}"></div>
+                <div class="form-group"><label>Title</label><input type="text" id="editEmpTitle" value="${title}"></div>
+                <button class="btn-success" onclick="updateEmployee(${id})">💾 Save Changes</button>
+            `;
+            openModal('Edit Employee', content);
+        }
+
+        async function updateEmployee(id) {
+            const employee = {
+                firstname: document.getElementById('editEmpFirstname').value,
+                lastname: document.getElementById('editEmpLastname').value,
+                email: document.getElementById('editEmpEmail').value,
+                phone: document.getElementById('editEmpPhone').value,
+                address: document.getElementById('editEmpAddress').value,
+                birthdate: document.getElementById('editEmpBirthdate').value,
+                numEmp: document.getElementById('editEmpNumber').value,
+                profession: document.getElementById('editEmpProfession').value,
+                title: document.getElementById('editEmpTitle').value
+            };
+            try {
+                await fetch(`${API_BASE}/employees/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(employee)
+                });
+                closeModal();
+                loadEmployees();
+            } catch (e) {
+                alert('Error updating employee');
+            }
+        }
+
+        async function deleteEmployee(id) {
+            if (!confirm('Are you sure you want to delete this employee?')) return;
+            try {
+                await fetch(`${API_BASE}/employees/${id}`, { method: 'DELETE' });
+                loadEmployees();
+            } catch (e) {
+                alert('Error deleting employee');
+            }
+        }
+
+        // ==================== PLANES ====================
         async function loadPlanes() {
             try {
                 const response = await fetch(`${API_BASE}/planes`);
                 const planes = await response.json();
-                let html = '<table><tr><th>ID</th><th>Brand</th><th>Model</th><th>Year</th></tr>';
+                if (planes.length === 0) {
+                    document.getElementById('planesTable').innerHTML = '<div class="empty-state"><p>No planes found. Add one below!</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>ID</th><th>Brand</th><th>Model</th><th>Year</th><th>Actions</th></tr>';
                 planes.forEach(p => {
                     html += `<tr>
                         <td>${p.idPlane}</td>
                         <td>${p.brand}</td>
                         <td>${p.model}</td>
                         <td>${p.manufacturingYear}</td>
+                        <td>
+                            <button class="btn-warning btn-sm" onclick="editPlane(${p.idPlane}, '${p.brand}', '${p.model}', ${p.manufacturingYear})">✏️</button>
+                            <button class="btn-danger btn-sm" onclick="deletePlane(${p.idPlane})">🗑️</button>
+                        </td>
                     </tr>`;
                 });
                 html += '</table>';
                 document.getElementById('planesTable').innerHTML = html;
             } catch (e) {
-                document.getElementById('planesTable').innerHTML = '<p style="color:red;">Error loading planes.</p>';
+                document.getElementById('planesTable').innerHTML = '<div class="alert alert-danger">Error loading planes.</div>';
             }
         }
 
-        // Add Plane
         async function addPlane() {
             const plane = {
                 brand: document.getElementById('planeBrand').value,
@@ -447,36 +1198,83 @@
                     body: JSON.stringify(plane)
                 });
                 if (response.ok) {
-                    alert('Plane added successfully!');
+                    document.getElementById('planeResult').innerHTML = '<div class="alert alert-success">✅ Plane added successfully!</div>';
                     loadPlanes();
+                    ['planeBrand', 'planeModel', 'planeYear'].forEach(id => document.getElementById(id).value = '');
                 }
             } catch (e) {
-                alert('Error adding plane.');
+                document.getElementById('planeResult').innerHTML = '<div class="alert alert-danger">❌ Error adding plane.</div>';
             }
         }
 
-        // Load Airports
+        function editPlane(id, brand, model, year) {
+            const content = `
+                <div class="form-group"><label>Brand</label><input type="text" id="editPlaneBrand" value="${brand}"></div>
+                <div class="form-group"><label>Model</label><input type="text" id="editPlaneModel" value="${model}"></div>
+                <div class="form-group"><label>Year</label><input type="number" id="editPlaneYear" value="${year}"></div>
+                <button class="btn-success" onclick="updatePlane(${id})">💾 Save Changes</button>
+            `;
+            openModal('Edit Plane', content);
+        }
+
+        async function updatePlane(id) {
+            const plane = {
+                brand: document.getElementById('editPlaneBrand').value,
+                model: document.getElementById('editPlaneModel').value,
+                manufacturingYear: parseInt(document.getElementById('editPlaneYear').value)
+            };
+            try {
+                await fetch(`${API_BASE}/planes/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(plane)
+                });
+                closeModal();
+                loadPlanes();
+            } catch (e) {
+                alert('Error updating plane');
+            }
+        }
+
+        async function deletePlane(id) {
+            if (!confirm('Are you sure you want to delete this plane?')) return;
+            try {
+                await fetch(`${API_BASE}/planes/${id}`, { method: 'DELETE' });
+                loadPlanes();
+            } catch (e) {
+                alert('Error deleting plane');
+            }
+        }
+
+        // ==================== AIRPORTS ====================
         async function loadAirports() {
             try {
                 const response = await fetch(`${API_BASE}/airports`);
                 const airports = await response.json();
-                let html = '<table><tr><th>ID</th><th>Name</th><th>City</th><th>Country</th></tr>';
+                if (airports.length === 0) {
+                    document.getElementById('airportsTable').innerHTML = '<div class="empty-state"><p>No airports found. Add one below!</p></div>';
+                    return;
+                }
+                let html = '<table><tr><th>ID</th><th>Name</th><th>City</th><th>Country</th><th>Actions</th></tr>';
                 airports.forEach(a => {
                     html += `<tr>
                         <td>${a.idAirport}</td>
                         <td>${a.nameAirport}</td>
                         <td>${a.cityAirport}</td>
                         <td>${a.countryAirport}</td>
+                        <td>
+                            <button class="btn-warning btn-sm" onclick="editAirport(${a.idAirport}, '${a.nameAirport}', '${a.countryAirport}', '${a.cityAirport}')">✏️</button>
+                            <button class="btn-danger btn-sm" onclick="deleteAirport(${a.idAirport})">🗑️</button>
+                        </td>
                     </tr>`;
                 });
                 html += '</table>';
                 document.getElementById('airportsTable').innerHTML = html;
             } catch (e) {
-                document.getElementById('airportsTable').innerHTML = '<p style="color:red;">Error loading airports.</p>';
+                document.getElementById('airportsTable').innerHTML = '<div class="alert alert-danger">Error loading airports.</div>';
             }
         }
 
-        // Add Airport
         async function addAirport() {
             const airport = {
                 nameAirport: document.getElementById('airportName').value,
@@ -490,35 +1288,85 @@
                     body: JSON.stringify(airport)
                 });
                 if (response.ok) {
-                    alert('Airport added successfully!');
+                    document.getElementById('airportResult').innerHTML = '<div class="alert alert-success">✅ Airport added successfully!</div>';
                     loadAirports();
+                    ['airportName', 'airportCountry', 'airportCity'].forEach(id => document.getElementById(id).value = '');
                 }
             } catch (e) {
-                alert('Error adding airport.');
+                document.getElementById('airportResult').innerHTML = '<div class="alert alert-danger">❌ Error adding airport.</div>';
             }
         }
 
-        // Load Rewards
+        function editAirport(id, name, country, city) {
+            const content = `
+                <div class="form-group"><label>Name</label><input type="text" id="editAirportName" value="${name}"></div>
+                <div class="form-group"><label>Country</label><input type="text" id="editAirportCountry" value="${country}"></div>
+                <div class="form-group"><label>City</label><input type="text" id="editAirportCity" value="${city}"></div>
+                <button class="btn-success" onclick="updateAirport(${id})">💾 Save Changes</button>
+            `;
+            openModal('Edit Airport', content);
+        }
+
+        async function updateAirport(id) {
+            const airport = {
+                nameAirport: document.getElementById('editAirportName').value,
+                countryAirport: document.getElementById('editAirportCountry').value,
+                cityAirport: document.getElementById('editAirportCity').value
+            };
+            try {
+                await fetch(`${API_BASE}/airports/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(airport)
+                });
+                closeModal();
+                loadAirports();
+            } catch (e) {
+                alert('Error updating airport');
+            }
+        }
+
+        async function deleteAirport(id) {
+            if (!confirm('Are you sure you want to delete this airport?')) return;
+            try {
+                await fetch(`${API_BASE}/airports/${id}`, { method: 'DELETE' });
+                loadAirports();
+            } catch (e) {
+                alert('Error deleting airport');
+            }
+        }
+
+        // ==================== REWARDS ====================
         async function loadRewards() {
             try {
                 const response = await fetch(`${API_BASE}/miles-rewards`);
                 const rewards = await response.json();
+                if (rewards.length === 0) {
+                    document.getElementById('rewardsTable').innerHTML = '<div class="empty-state"><p>No rewards yet. Book some flights to earn rewards!</p></div>';
+                    return;
+                }
                 let html = '<table><tr><th>ID</th><th>Client</th><th>Flight</th><th>Date</th><th>Discount Code</th></tr>';
                 rewards.forEach(r => {
+                    const hasDiscount = r.discountCode && r.discountCode !== 'null';
                     html += `<tr>
                         <td>${r.id}</td>
-                        <td>${r.client.firstname} ${r.client.lastname}</td>
-                        <td>${r.flight.flightNumber}</td>
-                        <td>${r.date}</td>
-                        <td style="color:${r.discountCode ? 'green' : 'gray'};">${r.discountCode || 'None'}</td>
+                        <td>${r.client?.firstname || '-'} ${r.client?.lastname || ''}</td>
+                        <td>${r.flight?.flightNumber || '-'}</td>
+                        <td>${r.date || '-'}</td>
+                        <td>${hasDiscount ? `<span class="status-badge badge-success">${r.discountCode}</span>` : '<span class="status-badge badge-secondary">None</span>'}</td>
                     </tr>`;
                 });
                 html += '</table>';
                 document.getElementById('rewardsTable').innerHTML = html;
             } catch (e) {
-                document.getElementById('rewardsTable').innerHTML = '<p style="color:red;">Error loading rewards.</p>';
+                document.getElementById('rewardsTable').innerHTML = '<div class="alert alert-danger">Error loading rewards.</div>';
             }
         }
+
+        // Close modal when clicking outside
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
     </script>
 </body>
 </html>

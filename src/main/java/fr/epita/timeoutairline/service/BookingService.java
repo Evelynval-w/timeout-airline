@@ -65,6 +65,7 @@ public class BookingService {
                 newClient.setFirstname(request.getFirstname());
                 newClient.setLastname(request.getLastname());
                 newClient.setNumPassport(request.getPassportNumber());
+                newClient.setEmail(request.getEmail());
                 newClient.setBirthdate(request.getBirthdate());
                 return clientRepository.save(newClient);
             });
