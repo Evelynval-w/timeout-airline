@@ -22,13 +22,13 @@ public class Flight {
     private BigDecimal businessClassPrice;
     private BigDecimal economicsClassPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "id_plane")
-    private Plane plane;
+    @ManyToOne   /// many flights can use 1 plane
+    @JoinColumn(name = "id_plane")   /// the flight table will have a column Id_plane... joined from the plane table
+    private Plane plane;   
 
-    @ManyToOne
-    @JoinColumn(name = "departure_airport_id")
-    private Airport departureAirport;
+    @ManyToOne  // many flights can have same departure airport
+    @JoinColumn(name = "departure_airport_id")  // departure_airport_id is a foreign key in flights table
+    private Airport departureAirport; //
 
     @ManyToOne
     @JoinColumn(name = "arrival_airport_id")

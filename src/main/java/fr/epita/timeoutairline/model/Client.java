@@ -10,9 +10,9 @@ public class Client extends User {
     @Column(unique = true) // adds unique constraint to the column passport num
     private String numPassport;
 
-    // Default constructor (required by JPA)
+    // Default constructor (required by JPA)  because it needs it to be able to create objects with reflection
     public Client() {
-    }
+    }  // it must be able to call a no-argument constructor 
 
     // Constructor with all fields (including parent fields)
     public Client(String firstname, String lastname, String address, String email, String phone, java.time.LocalDate birthdate, String numPassport) {
