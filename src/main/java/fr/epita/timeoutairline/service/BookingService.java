@@ -30,7 +30,7 @@ public class BookingService {
 
     // Create booking with seat availability check and miles reward
     public Booking createBooking(Booking booking) {
-        Flight flight = booking.getFlight();
+        Flight flight = booking.getFlight(); // gets flights from booking :: since the booking coming from booking controller contains a flight reference
 
         // Check if flight exists
         Flight existingFlight = flightRepository.findById(flight.getFlightNumber())
