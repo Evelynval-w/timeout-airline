@@ -57,4 +57,5 @@ public class PlaneController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(java.util.Map.of("message", "Cannot delete plane: it is assigned to existing flights. Delete the flights first."));
         }
+     }
     }
