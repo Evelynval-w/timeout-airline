@@ -65,4 +65,7 @@ public class ClientController {
         } catch (Exception e) {
         	return ResponseEntity.status(HttpStatus.CONFLICT)
         		    .body(java.util.Map.of("message", "Cannot delete client: they have existing bookings. Delete their bookings first."));
-        }}}
+        }
+    }
+}
+    

@@ -2,6 +2,7 @@ package fr.epita.timeoutairline.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import fr.epita.timeoutairline.model.Flight;
@@ -60,12 +61,13 @@ public class FlightController {
 
     // DELETE - DELETE /api/v1/flights/{flightNumber}
     @DeleteMapping("/{flightNumber}")
-    public ResponseEntity<Void> deleteFlight(@PathVariable String flightNumber) {
+    public ResponseEntity<?> deleteFlight(@PathVariable String flightNumber) {
         try {
             flightService.deleteFlight(flightNumber);
             return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(java.util.Map.of("message", "Cannot delete flight: it has existing bookings. Delete the bookings first."));
         }
     }
 }
