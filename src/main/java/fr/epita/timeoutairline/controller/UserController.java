@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    @Autowired
+    @Autowired // injects the userService implementations here
     private UserService userService;
 
     // CREATE - POST /api/v1/users

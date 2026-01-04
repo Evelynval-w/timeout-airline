@@ -12,11 +12,11 @@ public class MilesReward {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
+    @ManyToOne // many rewards can go to a client
+    @JoinColumn(name = "client_id")  // foreign key here
     private Client client;
 
-    @ManyToOne
+    @ManyToOne // many rewards can occur for same flight
     @JoinColumn(name = "flight_number")
     private Flight flight;
 

@@ -1,6 +1,7 @@
 package fr.epita.timeoutairline.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import fr.epita.timeoutairline.model.Plane;
@@ -46,14 +47,15 @@ public class PlaneController {
         }
     }
 
-    // DELETE - DELETE /api/v1/planes/{id}
+ // DELETE - DELETE /api/v1/planes/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlane(@PathVariable Long id) {
+    public ResponseEntity<?> deletePlane(@PathVariable Long id) {
         try {
             planeService.deletePlane(id);
             return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(java.util.Map.of("message", "Cannot delete plane: it is assigned to existing flights. Delete the flights first."));
         }
+     }
     }
-}

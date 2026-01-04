@@ -22,6 +22,15 @@ public class User {
     // Default constructor (required by JPA)
     public User() {
     }
+    /**
+     * 
+     * @param firstname
+     * @param lastname
+     * @param address
+     * @param email
+     * @param phone
+     * @param birthdate
+     */
 
     // Constructor with fields
     public User(String firstname, String lastname, String address, String email, String phone, LocalDate birthdate) {
